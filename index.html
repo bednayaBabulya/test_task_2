@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Маска с окнами</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div class="wrapper">
+			<video src="video.mp4" autoplay muted loop></video>
+			<canvas class="mask"></canvas>
+
+			<div class="content">
+				<p>
+					We're here
+					<span class="window one-block"></span>
+					to make healthy
+					<span class="window two-block"></span>
+					living effortless, so you can
+					<span class="window three-block"></span>
+					live longer and happier
+					<span class="window four-block"></span>
+				</p>
+			</div>
+		</div>
+
+		<script>
+			const canvas = document.querySelector('.mask')
+			const ctx = canvas.getContext('2d')
+
+			function updateMask() {
+				canvas.width = window.innerWidth
+				canvas.height = window.innerHeight
+				ctx.clearRect(0, 0, canvas.width, canvas.height)
+				ctx.fillStyle = 'black'
+				ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+				const windows = document.querySelectorAll('.window')
+				windows.forEach(win => {
+					const rect = win.getBoundingClientRect()
+					ctx.clearRect(rect.left, rect.top, rect.width, rect.height)
+				})
+			}
+
+			window.addEventListener('resize', updateMask)
+			window.addEventListener('load', updateMask)
+			window.addEventListener('scroll', updateMask)
+			setInterval(updateMask, 100) // Обновление при движении текста
+		</script>
+	</body>
+</html>
